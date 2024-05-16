@@ -9,7 +9,7 @@ class Ball
 public:
 	Ball(const Vector& c, const float& r, const Vector& Color);
 
-	bool FindRoot(Vector& o, Vector& v, float& t);
+	bool FindRoot(const Vector& o, const Vector& v, float& t);
 
 private:
 	Vector c;
