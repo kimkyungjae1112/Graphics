@@ -7,7 +7,7 @@ Triangle::Triangle(const Vector& point0, const Vector& point1, const Vector& poi
 	
 }
 
-bool Triangle::IsTriangleMeet(const Vector& o, float& t, const Vector& v, const Vector& p)
+bool Triangle::IsTriangleMeet(const Vector& o, double& t, const Vector& v, const Vector& p)
 {
 	if (IsPlaneMeet(o, t, v))
 	{

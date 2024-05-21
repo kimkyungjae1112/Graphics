@@ -2,6 +2,7 @@ C:\Users\rudwo\source\repos\openGL\openGL\ball.cpp;C:\Users\rudwo\source\repos\o
 C:\Users\rudwo\source\repos\openGL\openGL\context.cpp;C:\Users\rudwo\source\repos\openGL\openGL\x64\Debug\context.obj
 C:\Users\rudwo\source\repos\openGL\openGL\main.cpp;C:\Users\rudwo\source\repos\openGL\openGL\x64\Debug\main.obj
 C:\Users\rudwo\source\repos\openGL\openGL\matrix.cpp;C:\Users\rudwo\source\repos\openGL\openGL\x64\Debug\matrix.obj
-C:\Users\rudwo\source\repos\openGL\openGL\Plane.cpp;C:\Users\rudwo\source\repos\openGL\openGL\x64\Debug\Plane.obj
+C:\Users\rudwo\source\repos\openGL\openGL\plane.cpp;C:\Users\rudwo\source\repos\openGL\openGL\x64\Debug\plane.obj
+C:\Users\rudwo\source\repos\openGL\openGL\ray.cpp;C:\Users\rudwo\source\repos\openGL\openGL\x64\Debug\ray.obj
 C:\Users\rudwo\source\repos\openGL\openGL\triangle.cpp;C:\Users\rudwo\source\repos\openGL\openGL\x64\Debug\triangle.obj
 C:\Users\rudwo\source\repos\openGL\openGL\vector.cpp;C:\Users\rudwo\source\repos\openGL\openGL\x64\Debug\vector.obj

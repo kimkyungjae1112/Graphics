@@ -8,7 +8,7 @@ class Matrix
 {
 public:
 	Matrix();
-	Matrix(float diagonal);
+	Matrix(double diagonal);
 	~Matrix();
 	static Matrix Identity();
 
@@ -19,7 +19,7 @@ public:
 
 
 private:
-	float** mat4;
+	double** mat4;
 
 };
 

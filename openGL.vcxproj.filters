@@ -16,6 +16,15 @@
     <Filter Include="소스 파일\HW1">
       <UniqueIdentifier>{f786d9fa-e52d-4f78-a3dc-271b1b4a3bfc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\HW2">
+      <UniqueIdentifier>{1da24e57-47ad-4237-9776-9d008c15c251}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\HW3">
+      <UniqueIdentifier>{a9241427-26ce-40a2-b7e3-a992d5b40894}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\HW0">
+      <UniqueIdentifier>{791bba05-6028-487e-b32c-9414dedbd84b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -39,8 +48,20 @@
     <ClCompile Include="ball.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Plane.cpp">
+    <ClCompile Include="plane.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ray.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraToScreen.cpp">
+      <Filter>소스 파일\HW2</Filter>
+    </ClCompile>
+    <ClCompile Include="IsTriangleMeet.cpp">
+      <Filter>소스 파일\HW3</Filter>
+    </ClCompile>
+    <ClCompile Include="FiveColoring.cpp">
+      <Filter>소스 파일\HW0</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -60,6 +81,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="plane.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ray.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

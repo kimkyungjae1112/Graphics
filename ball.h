@@ -7,15 +7,13 @@
 class Ball
 {
 public:
-	Ball(const Vector& c, const float& r, const Vector& Color);
+	Ball(const Vector& c, const double& r, const Color& color);
+	bool FindRoot(const Vector& o, const Vector& v, double& t) const;
 
-	bool FindRoot(const Vector& o, const Vector& v, float& t);
 
-private:
 	Vector c;
-	float r;
-	Vector Color;
-
+	double r;
+	Color color;
 };
 
 

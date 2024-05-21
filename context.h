@@ -19,7 +19,7 @@ private:
 
 	Triangle triangle;
 	Vector o, v1, v2;
-	float t1, t2;
+	double t1, t2;
 };
 
 #endif // !__CONTEXT_H__
