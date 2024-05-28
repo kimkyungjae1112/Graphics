@@ -1,4 +1,5 @@
 #include "ray.h"
+
 Ray::Ray(const Vector& InOrigin, const Vector& InDirection) : Origin(InOrigin), Direction(InDirection)
 {
 }

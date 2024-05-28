@@ -10,7 +10,6 @@ public:
 	Ball(const Vector& c, const double& r, const Color& color);
 	bool FindRoot(const Vector& o, const Vector& v, double& t) const;
 
-
 	Vector c;
 	double r;
 	Color color;

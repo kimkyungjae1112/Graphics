@@ -14,8 +14,8 @@ public:
 	Vector FindvHat();	//상수 v 값을 찾기 위한 함수
 
 	void printN();
-private:
 
+private:
 	Vector Edge(const Vector& p1, const Vector& p2) const;
 	Vector MakeNormalVector(const Vector& p1, const Vector& p2) const;
 

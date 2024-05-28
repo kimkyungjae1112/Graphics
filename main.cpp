@@ -1,70 +1,51 @@
 #include "GL/freeglut.h"
-#include "vector.h"
-#include "matrix.h"
-#include "triangle.h"
-#include "ball.h"
-#include "ray.h" 
-#include <vector>
+#include "context.h"
 
-#define M_PI 3.141592653589793238462643383279
-
-// 화면 크기 및 프레임버퍼
+// 화면 크기
 const int nx = 400;
 const int ny = 400;
-std::vector<Color> FrameBuffer(nx* ny);
 
-// 광선 추적을 수행하고 프레임버퍼에 결과 저장
-void RenderScene()
+Interval FindJ(double small, double big)
 {
-    double fov = 90;
-    Vector E = { 600, 0, 0, 1 }; // 카메라 위치
-    Vector D = { 0, 0, 0 }; // 카메라가 바라보는 지점
-    Vector AT = D - E;
-    Vector UP = { 0, 0, 1 }; // 업 벡터
-    Vector LightPos = { 300, 300, 300 };
-
-    std::vector<Ball> Balls = {
-        {{0, 0, 0}, 50, {1, 0, 0}}, // 빨간색 구
-        {{0, 100, 0}, 50, {0, 1, 0}} // 초록색 구
-    };
-
-	Plane floor = { {1, 0, 0}, {0, 0, 0}, {0.2, 0.5, 0.8} }; // 흰색 바닥
-
-    Vector U = AT * UP;
-    Vector V = U * AT;
-    Vector W = -AT;
-
-    Matrix mat4;
-    mat4.InitM({ U, V, W, E });
-    double Distance = ny / (2 * tan(fov * M_PI / 360.0));
-
-
-    for (int j = 0; j < ny; ++j)
-    {
-        for (int i = 0; i < nx; ++i)
+    auto F = [](double x) -> std::vector<double>
         {
-            Vector Pixel = { -(nx / 2.0) + (0.5 + (i * 1)), (ny / 2.0) - (0.5 + (j * 1)) ,  -Distance, 1};
-            Vector CameraToScreen = (mat4 * Pixel - E);
-            Ray ray = { E, CameraToScreen };
-            FrameBuffer[j * nx + i] = ray.TraceRay(Balls, floor, LightPos);
-        }
+            return { x + 1, (x - 1) * (x - 1), x - 4};
+        };
+
+    std::vector<double> smaller = F(small);
+    std::vector<double> bigger = F(big);
+
+    std::vector<Interval> intervals;
+    for (size_t i = 0; i < smaller.size(); ++i)
+    {
+        intervals.push_back({ smaller[i], bigger[i] });
     }
- 
+
+    Interval result = intervals[0];
+    for (size_t i = 1; i < intervals.size(); ++i)
+    {
+        result = result * intervals[i];
+    }
+
+    return result;
 }
+
 
 // OpenGL 초기화 및 렌더링 함수
 void display()
 {
+    std::shared_ptr<Context> c = Context::GetContext();
+    c->Init(nx, ny);
+
+    const std::vector<Color> framebuffer(c->GetFrameBuffer());
     glClear(GL_COLOR_BUFFER_BIT);
 
     glBegin(GL_POINTS);
     for (int j = 0; j < ny; ++j)
     {
-        printf("%d ", j);
-
         for (int i = 0; i < nx; ++i)
         {
-            Color color = FrameBuffer[j * nx + i];
+            Color color = framebuffer[j * nx + i];
             glColor3d(color.r, color.g, color.b);
             glVertex2f((i / (float)nx) * 2 - 1, (j / (float)ny) * 2 - 1);
         }
@@ -76,7 +57,9 @@ void display()
 
 int main(int argc, char** argv)
 {
-    RenderScene();
+    std::shared_ptr<Context> a = Context::GetContext();
+    printf("(x + 1)(x - 1)(x - 4) 의 근 : %lf", a->IntervalMethod({-0.5,0.5}, FindJ));
+
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);

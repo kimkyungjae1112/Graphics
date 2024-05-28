@@ -6,20 +6,51 @@
 #include "matrix.h"
 #include "triangle.h"
 #include "ball.h"
+#include "ray.h"
+#include <vector>
+#include <memory>
+
+struct Interval
+{
+	double Smaller;
+	double Bigger;
+
+	Interval operator*(const Interval& interval)
+	{
+		double a = Smaller * interval.Smaller;
+		double b = Smaller * interval.Bigger;
+		double c = Bigger * interval.Smaller;
+		double d = Bigger * interval.Bigger;
+
+		return { std::min({a, b, c, d}), std::max({a, b, c, d}) };
+	}
+
+	Interval operator+(const Interval& interval)
+	{
+		return { Smaller + interval.Smaller, Bigger + interval.Bigger };
+	}
+			
+};
 
 class Context
 {
 public:
-	Context(Triangle triangle, const Vector& o, const Vector& v1, const Vector& v2);
+	static std::shared_ptr<Context> GetContext();
+	void Init(const int& nx, const int& ny);
+	
+	double IntervalMethod(const Interval& interval, Interval (*Function)(double, double));
 
-	void Init();	//문제의 답에 대한 함수
+
+	std::vector<Color>& GetFrameBuffer();
+	~Context();
 
 private:
-	void IsRayContact(bool flag, int index);	//점이 삼각형 안에 있는지 출력하는 함수
+	static std::shared_ptr<Context> context;
+	std::vector<Color> FrameBuffer;
 
-	Triangle triangle;
-	Vector o, v1, v2;
-	double t1, t2;
+	Context();
+	Context(const Context&) = delete;
+	Context operator=(const Context&) = delete;
 };
 
 #endif // !__CONTEXT_H__

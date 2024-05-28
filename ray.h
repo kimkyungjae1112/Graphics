@@ -15,6 +15,7 @@ public:
 	Vector GetDirection() const { return Direction; } 
 
 	bool IsInShadow(const Vector& Point, const Vector& LightPos, const std::vector<Ball>& Balls, const Plane& Floor);
+
 	Color TraceRay(const std::vector<Ball>& Balls, const Plane& Floor, const Vector& LightPos);
 
 private:
