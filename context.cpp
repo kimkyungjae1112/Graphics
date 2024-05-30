@@ -1,4 +1,5 @@
 #include "context.h"
+#include "interval.h"
 #include <cmath>
 #include <limits>
 
@@ -55,22 +56,6 @@ void Context::Init(const int& nx, const int& ny)
 			FrameBuffer[j * nx + i] = ray.TraceRay(Balls, floor, LightPos);
 		}
 	}
-}
-
-double Context::IntervalMethod(const Interval& interval, Interval (*Function)(double, double))
-{
-	if (abs(interval.Bigger - interval.Smaller) < 1e-6) return (interval.Bigger + interval.Smaller) / 2.0;
-
-	Interval J = Function(interval.Smaller, interval.Bigger);
-	if (J.Smaller * J.Bigger > 0) return std::numeric_limits<double>::quiet_NaN();
-
-	double Center = (interval.Bigger + interval.Smaller) / 2.0;
-	Interval interval1 = { interval.Smaller, Center };
-	Interval interval2 = { Center, interval.Bigger };
-
-	double Root = IntervalMethod(interval1, Function);
-
-	return !std::isnan(Root) ? Root : IntervalMethod(interval2, Function);	
 }
 
 std::vector<Color>& Context::GetFrameBuffer()
