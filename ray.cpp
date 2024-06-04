@@ -1,68 +1,57 @@
 #include "ray.h"
+#include <cmath>
+#include <limits>
 
-Ray::Ray(const Vector& InOrigin, const Vector& InDirection) : Origin(InOrigin), Direction(InDirection)
+Ray::Ray(const Vector& origin, const Vector& direction)
+    : origin(origin), direction(direction)
 {
 }
 
-bool Ray::IsInShadow(const Vector& Point, const Vector& LightPos, const std::vector<Ball>& Balls, const Plane& Floor)
+bool Ray::IsInShadow(const Vector& point, const Vector& lightPos, const std::vector<Shape*>& shapes)
 {
-	const Vector LightDir = (LightPos - Point).Normalization();
+    Vector lightDir = (lightPos - point).Normalization();
 
-	for (const auto& ball : Balls)
-	{
-		double t;
-		if (ball.FindRoot(Point, LightDir, t) && t > 1e-6)
-		{
-			return true;
-		}
-	}
-
-	double FloorT;
-	if (Floor.IsPlaneMeet(Point, FloorT, LightDir) && FloorT > 1e-6)
-	{
-		return true;
-	}
-
-	return false;
+    for (const auto& shape : shapes)
+    {
+        double t;
+        if (shape->Intersect(point, lightDir, t) && t > 1e-6)
+        {
+            return true;
+        }
+    }
+    return false;
 }
- 
 
-Color Ray::TraceRay(const std::vector<Ball>& Balls, const Plane& Floor, const Vector& LightPos)
+Color Ray::TraceRay(const std::vector<Shape*>& shapes, const Vector& lightPos)
 {
-	Color BackGround = { 1.0, 1.0, 1.0 };
-	Color color = BackGround;
+    Color background = { 1.0, 1.0, 1.0 };
+    Color color = background;
+    double tMin = std::numeric_limits<double>::max();
+    const Shape* hitShape = nullptr;
+    Vector hitPoint;
 
-	for (const auto& ball : Balls)
-	{
-		double t = 0;
-		if (ball.FindRoot(Origin, Direction, t))
-		{
-			Vector HitPoint = Origin + Direction * t;
-			Vector Normal = (HitPoint - ball.c).Normalization();
-			Vector LightDir = (LightPos - HitPoint).Normalization();
-			double Intensity = std::max(0.0, Normal.DotProduct(LightDir));
-			if (IsInShadow(HitPoint, LightPos, Balls, Floor))
-			{
-				Intensity *= 0.5;
-			}
-			color = ball.color * Intensity;
-			return color;
-		}
-	}
-	
-	double FloorT = 0;
-	if (Floor.IsPlaneMeet(Origin, FloorT, Direction))
-	{
-		Vector HitPoint = Origin + Direction * FloorT;
-		Vector LightDir = (LightPos - HitPoint).Normalization();
-		double Intensity = std::max(0.0, Floor.Normal.DotProduct(LightDir));
-		if (IsInShadow(HitPoint, LightPos, Balls, Floor))
-		{
-			Intensity *= 0.5;
-		}
-		color = Floor.color * Intensity;
-		return color;
-	}
-	
-	return color;
+    for (const auto& shape : shapes)
+    {
+        double t;
+        if (shape->Intersect(origin, direction, t) && t < tMin)
+        {
+            tMin = t;
+            hitShape = shape;
+        }
+    }
+
+    if (hitShape)
+    {
+        hitPoint = origin + direction * tMin;
+        Vector normal = hitShape->GetNormal(hitPoint);
+        Vector lightDir = (lightPos - hitPoint).Normalization();
+        double intensity = std::max(0.0, normal.DotProduct(lightDir));
+        if (IsInShadow(hitPoint, lightPos, shapes))
+        {
+            intensity *= 0.5;
+        }
+        color = hitShape->GetColor() * intensity;
+    }
+
+    return color;
 }

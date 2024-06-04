@@ -2,18 +2,24 @@
 #ifndef __BALL_H__
 #define __BALL_H__
 
-#include "vector.h"
+#include "shape.h"
 
-class Ball
+class Ball : public Shape
 {
 public:
-	Ball(const Vector& c, const double& r, const Color& color);
-	bool FindRoot(const Vector& o, const Vector& v, double& t) const;
+    Ball(const Vector& center, double radius, const Color& color)
+        : c(center), r(radius), col(color)
+    {
+    }
 
-	Vector c;
-	double r;
-	Color color;
+    virtual bool Intersect(const Vector& origin, const Vector& direction, double& t) const override;
+    virtual Vector GetNormal(const Vector& point) const override;
+    virtual Color GetColor() const override { return col; }
+
+private:
+    Vector c; // center
+    double r; // radius
+    Color col;
 };
 
-
-#endif // !__BALL_H__
+#endif // __BALL_H__

@@ -1,18 +1,25 @@
 #pragma once
 #ifndef __PLANE_H__
 #define __PLANE_H__
-#include "vector.h"
 
-class Plane
+#include "shape.h"
+
+class Plane : public Shape
 {
 public:
-	Plane(const Vector& Normal, const Vector& Point, const Color& color);
+    Plane(const Vector& normal, const Vector& point, const Color& color)
+        : n(normal), p(point), col(color)
+    {
+    }
 
-	bool IsPlaneMeet(const Vector& o, double& t, const Vector& v) const;	//평면에 광선이 닿았는지 확인하는 함수
+    virtual bool Intersect(const Vector& Origin, const Vector& Direction, double& t) const override;
+    virtual Vector GetNormal(const Vector& Point) const override { return n; }
+    virtual Color GetColor() const override { return col; }
 
-	Vector Normal;
-	Vector Point;
-	Color color;
+private:
+    Vector n; // normal
+    Vector p; // point
+    Color col;
 };
 
-#endif // !__PLANE_H__
+#endif // __PLANE_H__

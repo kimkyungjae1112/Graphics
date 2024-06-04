@@ -4,12 +4,12 @@
 
 #include "vector.h"
 #include "matrix.h"
-#include "triangle.h"
+#include "plane.h"
 #include "ball.h"
 #include "ray.h"
+#include "implicitsurface.h"
 #include <vector>
 #include <memory>
-
 
 class Context
 {
@@ -22,6 +22,7 @@ public:
 private:
 	static std::shared_ptr<Context> context;
 	std::vector<Color> FrameBuffer;
+
 
 	Context();
 	Context(const Context&) = delete;

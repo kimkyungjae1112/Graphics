@@ -45,13 +45,13 @@ Interval Interval::FindJ(std::vector<double> (*ptr)(double))
     std::vector<double> bigger = F(Bigger);
 
     std::vector<Interval> intervals;
-    for (size_t i = 0; i < smaller.size(); ++i)
+    for (int i = 0; i < smaller.size(); ++i)
     {
         intervals.push_back({ smaller[i], bigger[i] });
     }
 
     Interval result = intervals[0];
-    for (size_t i = 1; i < intervals.size(); ++i)
+    for (int i = 1; i < intervals.size(); ++i)
     {
         result = result * intervals[i];
     }

@@ -3,24 +3,21 @@
 #define __RAY_H__
 
 #include "vector.h"
-#include "ball.h"
-#include "plane.h"
+#include "shape.h"
 #include <vector>
 
 class Ray
 {
 public:
-	Ray(const Vector& InOrigin, const Vector& InDirection);
-	
-	Vector GetDirection() const { return Direction; } 
+    Ray(const Vector& origin, const Vector& direction);
 
-	bool IsInShadow(const Vector& Point, const Vector& LightPos, const std::vector<Ball>& Balls, const Plane& Floor);
-
-	Color TraceRay(const std::vector<Ball>& Balls, const Plane& Floor, const Vector& LightPos);
+    Color TraceRay(const std::vector<Shape*>& shapes, const Vector& lightPos);
 
 private:
-	Vector Origin;
-	Vector Direction;
+    Vector origin;
+    Vector direction;
+
+    bool IsInShadow(const Vector& point, const Vector& lightPos, const std::vector<Shape*>& shapes);
 };
 
-#endif //__RAY_H__
+#endif // __RAY_H__

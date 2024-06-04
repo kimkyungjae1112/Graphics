@@ -1,15 +1,11 @@
 #include "plane.h"
 
-Plane::Plane(const Vector& Normal, const Vector& Point, const Color& color) : Normal(Normal), Point(Point), color(color)
+bool Plane::Intersect(const Vector& Origin, const Vector& Direction, double& t) const
 {
-
-}
-
-bool Plane::IsPlaneMeet(const Vector& o, double& t, const Vector& v) const
-{
-	if (v.DotProduct(Normal) != 0)
+	double denom = n.DotProduct(Direction);
+	if (n.DotProduct(Direction) != 0)
 	{
-		t = (Point - o).DotProduct(Normal) / v.DotProduct(Normal);
+		t = (p - Origin).DotProduct(n) / Direction.DotProduct(n);
 		return true;
 	}
 	return false;

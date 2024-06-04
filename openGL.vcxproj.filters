@@ -66,6 +66,9 @@
     <ClCompile Include="interval.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="implicitsurface.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vector.h">
@@ -90,6 +93,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="interval.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="shape.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="implicitsurface.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

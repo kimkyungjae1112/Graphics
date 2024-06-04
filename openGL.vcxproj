@@ -139,6 +139,7 @@
     <ClCompile Include="FiveColoring.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="implicitsurface.cpp" />
     <ClCompile Include="interval.cpp" />
     <ClCompile Include="IsTriangleMeet.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -157,10 +158,12 @@
   <ItemGroup>
     <ClInclude Include="ball.h" />
     <ClInclude Include="context.h" />
+    <ClInclude Include="implicitsurface.h" />
     <ClInclude Include="interval.h" />
     <ClInclude Include="matrix.h" />
     <ClInclude Include="plane.h" />
     <ClInclude Include="ray.h" />
+    <ClInclude Include="shape.h" />
     <ClInclude Include="triangle.h" />
     <ClInclude Include="vector.h" />
   </ItemGroup>

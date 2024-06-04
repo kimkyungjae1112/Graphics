@@ -29,12 +29,11 @@ void Context::Init(const int& nx, const int& ny)
 	Vector UP = { 0, 0, 1 }; // ¾÷ º¤ÅÍ
 	Vector LightPos = { 300, 300, 300 };
 
-	std::vector<Ball> Balls = {
-		{{0, 0, 0}, 50, {1, 0, 0}}, // »¡°£»ö ±¸
-		{{0, 100, 0}, 50, {0, 1, 0}} // ÃÊ·Ï»ö ±¸
+	std::vector<Shape*> shapes = {
+		new Ball({0, 0, 0}, 50, {1, 0, 0}), // »¡°£»ö ±¸
+		new Ball({0, 100, 0}, 50, {0, 1, 0}), // ÃÊ·Ï»ö ±¸
+		new Plane({1, 0, 0}, {0, 0, 0}, {0.2, 0.5, 0.8}) // Èò»ö ¹Ù´Ú
 	};
-
-	Plane floor = { {1, 0, 0}, {0, 0, 0}, {0.2, 0.5, 0.8} }; // Èò»ö ¹Ù´Ú
 
 	Vector U = AT * UP;
 	Vector V = U * AT;
@@ -52,8 +51,13 @@ void Context::Init(const int& nx, const int& ny)
 			Vector Pixel = { -(nx / 2.0) + (0.5 + (i * 1)), (ny / 2.0) - (0.5 + (j * 1)) ,  -Distance, 1 };
 			Vector CameraToScreen = (mat4 * Pixel - E);
 			Ray ray = { E, CameraToScreen };
-			FrameBuffer[j * nx + i] = ray.TraceRay(Balls, floor, LightPos);
+			FrameBuffer[j * nx + i] = ray.TraceRay(shapes, LightPos);
 		}
+	}
+
+	for (auto shape : shapes)
+	{
+		delete shape;
 	}
 }
 
