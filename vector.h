@@ -43,8 +43,8 @@ public:
     Vector operator-(const Vector& vector) const;
     Vector operator-() const;
     Vector operator*(const Vector& vector) const; //∫§≈Õ ø‹¿˚
-    Vector& operator*(double value);
-    Vector& operator/(double value);
+    Vector operator*(double value) const;
+    Vector operator/(double value) const;
 };
 
 #endif //__VECTOR_H__

@@ -26,18 +26,17 @@ bool Ray::IsInShadow(const Vector& Point, const Vector& LightPos, const std::vec
 	return false;
 }
  
+
 Color Ray::TraceRay(const std::vector<Ball>& Balls, const Plane& Floor, const Vector& LightPos)
 {
 	Color BackGround = { 1.0, 1.0, 1.0 };
 	Color color = BackGround;
-	double MiniT = std::numeric_limits<double>::max();
 
 	for (const auto& ball : Balls)
 	{
 		double t = 0;
 		if (ball.FindRoot(Origin, Direction, t))
 		{
-			MiniT = t;
 			Vector HitPoint = Origin + Direction * t;
 			Vector Normal = (HitPoint - ball.c).Normalization();
 			Vector LightDir = (LightPos - HitPoint).Normalization();
@@ -52,7 +51,7 @@ Color Ray::TraceRay(const std::vector<Ball>& Balls, const Plane& Floor, const Ve
 	}
 	
 	double FloorT = 0;
-	if (Floor.IsPlaneMeet(Origin, FloorT, Direction) && FloorT < MiniT)
+	if (Floor.IsPlaneMeet(Origin, FloorT, Direction))
 	{
 		Vector HitPoint = Origin + Direction * FloorT;
 		Vector LightDir = (LightPos - HitPoint).Normalization();

@@ -57,18 +57,12 @@ Vector Vector::operator*(const Vector& vector) const
     );
 }
 
-Vector& Vector::operator*(double value)
+Vector Vector::operator*(double value) const
 {
-    x = x * value;
-    y = y * value;
-    z = z * value;
-    return *this;
+    return Vector(x * value, y * value, z * value);
 }
 
-Vector& Vector::operator/(double value)
+Vector Vector::operator/(double value) const
 {
-    x = x / value;
-    y = y / value;
-    z = z / value;
-    return *this;
+    return Vector(x / value, y / value, z / value);
 }

@@ -1,6 +1,8 @@
 #include "ball.h"
 #include <cmath>
 #include <stdio.h>
+#include <limits>
+#include <algorithm>
 
 Ball::Ball(const Vector& c, const double& r, const Color& color) : c(c), r(r), color(color)
 {
@@ -25,4 +27,3 @@ bool Ball::FindRoot(const Vector& o, const Vector& v, double& t) const	//ball°ú 
 		return false;
 	}
 }
-

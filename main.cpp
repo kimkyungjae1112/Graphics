@@ -32,24 +32,14 @@ void display()
 
 int main(int argc, char** argv)
 {
-    Interval interval(-2, 5);
-    std::vector<double> Roots = interval.FindAllRoot([](double x) -> std::vector<double>
-        {
-            return { x + 1, (x - 1) * (x - 1), x - 4};
-        });
-
-    for (int i = 0; i < Roots.size(); ++i)
-    {
-        printf("%d ¹øÂ° Root : %lf\n", i + 1, Roots[i]);
-    }
-   
-
-    /*glutInit(&argc, argv);
+    glutInit(&argc, argv);
+    
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
     glutInitWindowSize(nx, ny);
     glutCreateWindow("Ray Tracing Image");
+    
     glutDisplayFunc(display);
     glClearColor(0.0, 0.0, 0.0, 1.0);
-    glutMainLoop();*/
+    glutMainLoop();
     return 0;
 }
