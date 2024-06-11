@@ -1,97 +1,102 @@
 #include "interval.h"
 #include <limits>
 #include <cmath>
+#include <iostream>
 
-double Interval::IntervalMethod(std::vector<double> (*ptr)(double))
+Interval Interval::operator*(const Interval& interval) const
 {
-    if (abs(Bigger - Smaller) < 1e-6) return (Bigger + Smaller) / 2.0;
+    double a = Smaller * interval.Smaller;
+    double b = Smaller * interval.Bigger;
+    double c = Bigger * interval.Smaller;
+    double d = Bigger * interval.Bigger;
 
-    Interval J = FindJ(ptr);
-    if (J.Smaller * J.Bigger > 0) return std::numeric_limits<double>::quiet_NaN();
-
-    double Center = (Bigger + Smaller) / 2.0;
-    Interval interval1 = { Smaller, Center };
-    Interval interval2 = { Center, Bigger };
-
-    double Root = interval1.IntervalMethod(ptr);
-
-    return !std::isnan(Root) ? Root : interval2.IntervalMethod(ptr);
+    return Interval(std::min({a, b, c, d}), std::max({a, b, c, d})) ;
 }
 
-std::vector<double> Interval::FindAllRoot(std::vector<double>(*F)(double))
-{
-    std::vector<double> Roots;
-    double Start = 0.0;
-
-    double Root = IntervalMethod(F);
-    if (!std::isnan(Root)) Roots.push_back(Root);
-
-    while (!std::isnan(Root))
-    {
-        Start = Root;
-        Interval interval{ Start + 0.00001, Bigger };
-        Root = interval.IntervalMethod(F);
-        if (!std::isnan(Root)) Roots.push_back(Root);
-    }
-
-    return Roots;
-}
-
-Interval Interval::FindJ(std::vector<double> (*ptr)(double))
-{
-    auto F = ptr;
- 
-    std::vector<double> smaller = F(Smaller);
-    std::vector<double> bigger = F(Bigger);
-
-    std::vector<Interval> intervals;
-    for (int i = 0; i < smaller.size(); ++i)
-    {
-        intervals.push_back({ smaller[i], bigger[i] });
-    }
-
-    Interval result = intervals[0];
-    for (int i = 1; i < intervals.size(); ++i)
-    {
-        result = result * intervals[i];
-    }
-
-    return result;
-}
-
-Interval& Interval::operator=(const Interval& interval)
-{
-    Smaller = interval.Smaller;
-    Bigger = interval.Bigger;
-    return *this;
-}
-
-Interval Interval::operator*(const Interval& interval)
-{
-	double a = Smaller * interval.Smaller;
-	double b = Smaller * interval.Bigger;
-	double c = Bigger * interval.Smaller;
-	double d = Bigger * interval.Bigger;
-
-	return { std::min({a, b, c, d}), std::max({a, b, c, d}) };
-}
-
-Interval Interval::operator/(const Interval& interval)
+Interval Interval::operator/(const Interval& interval) const
 {
     double a = Smaller / interval.Smaller;
     double b = Smaller / interval.Bigger;
     double c = Bigger / interval.Smaller;
     double d = Bigger / interval.Bigger;
 
-    return { std::min({a, b, c, d}), std::max({a, b, c, d}) };
+    return Interval(std::min({a, b, c, d}), std::max({a, b, c, d}));
 }
 
-Interval Interval::operator+(const Interval& interval)
+Interval Interval::operator+(const Interval& interval) const
 {
-	return { Smaller + interval.Smaller, Bigger + interval.Bigger };
+    return { Smaller + interval.Smaller, Bigger + interval.Bigger };
 }
 
-Interval Interval::operator-(const Interval& interval)
+Interval Interval::operator-(const Interval& interval) const
 {
-	return { Smaller - interval.Bigger, Bigger - interval.Smaller };
+    return { Smaller - interval.Bigger, Bigger - interval.Smaller };
+}
+
+Interval exp(const Interval& interval)
+{
+    return Interval(std::exp(interval.Smaller), std::exp(interval.Bigger));
+}
+
+Interval Interval::operator-() const
+{
+    return Interval(-Bigger, -Smaller);
+}
+
+Interval Interval::operator+(const double& i) const
+{
+    return Interval(Smaller + i, Bigger + i);
+}
+
+Interval Interval::operator-(const double& i) const 
+{
+    return Interval(Smaller - i, Bigger - i);
+}
+
+Interval Interval::operator*(const double& i) const
+{
+    return (i > 0) ? Interval(Smaller * i, Bigger * i) : Interval(Bigger * i, Smaller * i);
+}
+
+Interval operator+(const double& i, const Interval& interval)
+{
+    return interval + i;
+}
+
+Interval operator-(const double& i, const Interval& interval)
+{
+    return interval - i;
+}
+
+Interval operator*(const double& i, const Interval& interval)
+{
+    return interval * i;
+}
+
+
+
+std::optional<double> IntervalMethod(const std::function<Interval(Interval)>& func, const Interval& i)
+{
+    constexpr static double m_eps = std::numeric_limits<double>::epsilon();
+    constexpr static double d_eps = m_eps * 1e1; //10¹è ´õ ³ÐÀº machine_epsilon
+
+    if (i.Range() < 0.022)
+    {
+        return i.Center();
+    }
+
+    Interval J = func(i);
+    if (!J.Contain(0)) return std::nullopt;
+
+    Interval interval1 = { i.Smaller, i.Center() };
+    Interval interval2 = { i.Center() + m_eps, i.Bigger };
+
+    std::optional<double> Root = IntervalMethod(func, interval1);
+
+    return Root.has_value() ? Root : IntervalMethod(func, interval2);
+}
+
+std::ostream& operator<<(std::ostream& os, const Interval& interval)
+{
+    return os << "{ " << interval.Smaller << ", " << interval.Bigger << " }";
 }

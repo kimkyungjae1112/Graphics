@@ -1,29 +1,56 @@
 #pragma once
-#ifndef __INTERVAL_H__
-#define __INTERVAL_H__
-#include <vector>
+#include <functional>
+#include <optional>
+#include <numeric>
+#include <ostream>
+
 
 class Interval
 {
 public:
-	Interval() {};
-	Interval(const double& a, const double& b) : Smaller(a), Bigger(b) {}
+    double Smaller;
+    double Bigger;
 
-	double IntervalMethod(std::vector<double>(*ptr)(double));
-	std::vector<double> FindAllRoot(std::vector<double>(*F)(double));
+    Interval(const double& smaller, const double& bigger)
+        : Smaller(smaller), Bigger(bigger)
+    {
+    }
 
-	Interval& operator=(const Interval& interval);
-	Interval operator*(const Interval& interval);
-	Interval operator/(const Interval& interval);
-	Interval operator+(const Interval& interval);
-	Interval operator-(const Interval& interval);
-	
+    Interval operator*(const Interval& interval) const;
+    Interval operator/(const Interval& interval) const;
+    Interval operator+(const Interval& interval) const;
+    Interval operator-(const Interval& interval) const;
+    
+    Interval operator+(const double& i) const;
+    Interval operator-(const double& i) const;
+    Interval operator*(const double& i) const;
+    Interval operator-() const;
 
-private:
-	Interval FindJ(std::vector<double> (*ptr)(double));
+    friend Interval operator+(const double& i, const Interval& interval);
+    friend Interval operator-(const double& i, const Interval& interval);
+    friend Interval operator*(const double& i, const Interval& interval);
+    
+    
+    friend Interval exp(const Interval& interval);
+    friend std::ostream& operator<<(std::ostream& os, const Interval& interval);
 
-	double Smaller;
-	double Bigger;
+
+    double Range() const
+    {
+        return Bigger - Smaller;
+    }
+    double Center() const
+    {
+        return (Bigger + Smaller) / 2;
+    }
+    bool Contain(const double& i) const
+    { 
+        return Bigger >= i && Smaller <= i;
+    }
+
+    
 };
 
-#endif // !__INTERVAL_H__
+std::ostream& operator<<(std::ostream& os, const Interval& interval);
+std::optional<double> IntervalMethod(const std::function<Interval(Interval)>& func, const Interval& i);
+

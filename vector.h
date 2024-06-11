@@ -38,6 +38,7 @@ public:
 
     void println() const;   //벡터 요소 출력
     double SizeVector() const;  //벡터 크기 출력
+    double LengthSquared() const;
 
     Vector operator+(const Vector& vector) const;
     Vector operator-(const Vector& vector) const;

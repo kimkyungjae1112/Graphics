@@ -1,6 +1,7 @@
 #include "ray.h"
 #include <cmath>
 #include <limits>
+#include <iostream>
 
 Ray::Ray(const Vector& origin, const Vector& direction)
     : origin(origin), direction(direction)
@@ -45,7 +46,7 @@ Color Ray::TraceRay(const std::vector<Shape*>& shapes, const Vector& lightPos)
         hitPoint = origin + direction * tMin;
         Vector normal = hitShape->GetNormal(hitPoint);
         Vector lightDir = (lightPos - hitPoint).Normalization();
-        double intensity = std::max(0.0, normal.DotProduct(lightDir));
+        double intensity = /*std::max(0.0, normal.DotProduct(lightDir))*/1.0;
         if (IsInShadow(hitPoint, lightPos, shapes))
         {
             intensity *= 0.5;

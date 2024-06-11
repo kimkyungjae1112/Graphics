@@ -7,7 +7,7 @@
 #include "plane.h"
 #include "ball.h"
 #include "ray.h"
-#include "implicitsurface.h"
+#include "implicit_surface.h"
 #include <vector>
 #include <memory>
 

@@ -33,6 +33,11 @@ double Vector::SizeVector() const
     return sqrt(x * x + y * y + z * z);
 }
 
+double Vector::LengthSquared() const
+{
+    return x * x + y * y + z * z;
+}
+
 Vector Vector::operator+(const Vector& vector) const
 {
     return Vector(x + vector.x, y + vector.y, z + vector.z);

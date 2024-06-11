@@ -2,6 +2,8 @@
 #include "interval.h"
 #include <cmath>
 #include <limits>
+#include <memory>
+#include <iostream>
 
 std::shared_ptr<Context> Context::context = nullptr;
 
@@ -24,15 +26,18 @@ void Context::Init(const int& nx, const int& ny)
 
 	double fov = 90;
 	Vector E = { 600, 0, 0, 1 }; // 카메라 위치
-	Vector D = { 0, 0, 100 }; // 카메라가 바라보는 지점
+	Vector D = { 0, 0, 0 }; // 카메라가 바라보는 지점
 	Vector AT = D - E;
 	Vector UP = { 0, 0, 1 }; // 업 벡터
 	Vector LightPos = { 300, 300, 300 };
 
+	
+
 	std::vector<Shape*> shapes = {
-		new Ball({0, 0, 0}, 50, {1, 0, 0}), // 빨간색 구
-		new Ball({0, 100, 0}, 50, {0, 1, 0}), // 초록색 구
-		new Plane({1, 0, 0}, {0, 0, 0}, {0.2, 0.5, 0.8}) // 흰색 바닥
+		//new Ball({0, 0, 0}, 50, {1, 0, 0}), // 빨간색 구
+		//new Ball({0, 100, 0}, 50, {0, 1, 0}), // 초록색 구
+		new Plane({1, 0, 0}, {0, 0, 0}, {0.2, 0.5, 0.8}), // 흰색 바닥
+		new ImplicitSurface({{0,-150,-100}, { 0,150,-100 }, {0,150,100}, {0,-150,100}}, 1.0, {1, 1, 0})
 	};
 
 	Vector U = AT * UP;

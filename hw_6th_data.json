@@ -1,0 +1,55 @@
+// Ray-tracing 이미지 생성을 위한 설정파일입니다.
+{
+  "screen-parameters": {
+    "screen-size": [ 600, 350 ],
+    "fov": 60
+  },
+
+  "viewing-parameters": {
+    "eye-position": [ 10, 0, 1.5 ],
+    "lookat-point": [ 0, 0, 0 ],
+    "headup-vector": [ 0, 0, 1 ]
+  },
+
+  "shading-parameters": {
+    "background-color": [ 0.3, 0.3, 0.5 ],
+    "phong-highlighting-n": 5,
+    "phong-highlighting-h": 0.01,
+    "ambient-factor": 0.15,
+    "anti-alising-factor": 2
+  },
+
+  "objects": [
+    // 광원
+    {
+      "type": "light-source",
+      "data": {
+        "position": [ 10, 0, 9 ],
+        "color": "white",
+        "radius": 0.1,
+        "light-strength": 20
+      }
+    },
+    //바닥
+    {
+      "type": "plane",
+      "data": {
+        "position": [ 0, 0, -6 ],
+        "normal": [ 0, 0, 1 ],
+        "color": [ 0.9, 0.9, 0.8 ]
+      }
+    },
+    {
+      "type": "implicit-surface",
+      "data": {
+        "color": [ 0.1, 0.5, 0.6 ],
+        "source-points": [
+          [ 2, 1.5, 0 ],
+          [ 1, 0, 1 ],
+          [ 2, 2, 2 ]
+        ],
+        "t-value": 0.5
+      }
+    }
+  ]
+}
