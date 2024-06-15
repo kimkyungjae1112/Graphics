@@ -2,10 +2,11 @@
 #include "context.h"
 #include "interval.h"
 #include <iostream>
+#include <numeric>
 
 // 화면 크기
-const int nx = 500;
-const int ny = 500;
+const int nx = 400;
+const int ny = 400;
 
 // OpenGL 초기화 및 렌더링 함수
 void display()
@@ -17,7 +18,6 @@ void display()
     const std::vector<Color> framebuffer(c->GetFrameBuffer());
     for (int j = 0; j < ny; ++j)
     {
-
         glBegin(GL_POINTS);
         for (int i = 0; i < nx; ++i)
         {

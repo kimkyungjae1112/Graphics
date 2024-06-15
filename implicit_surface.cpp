@@ -26,11 +26,10 @@ bool ImplicitSurface::Intersect(const Vector& origin, const Vector& direction, d
                 const double c = oc.DotProduct(oc);
                 ret = ret + exp(-(a * t * t + 2 * b * t + c));
             }
-
             return ret - isoValue;
         };
 
-    std::optional<double> root = IntervalMethod(func_im, {-100, 100});
+    std::optional<double> root = IntervalMethod(func_im, {-10000, 10000});
     if (root.has_value())
     {
         tt = root.value();
@@ -54,7 +53,7 @@ Vector ImplicitSurface::GetNormal(const Vector& point) const
         };
 
     constexpr double delta = 1e-5;
-    Vector normal = Vector(
+    Vector normal = -Vector(
         func_normal({ point.x + delta, point.y, point.z }) - func_normal({ point.x - delta, point.y, point.z }),
         func_normal({ point.x, point.y + delta, point.z }) - func_normal({ point.x, point.y - delta, point.z }),
         func_normal({ point.x, point.y, point.z + delta }) - func_normal({ point.x, point.y, point.z - delta })

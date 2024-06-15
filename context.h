@@ -23,7 +23,6 @@ private:
 	static std::shared_ptr<Context> context;
 	std::vector<Color> FrameBuffer;
 
-
 	Context();
 	Context(const Context&) = delete;
 	Context operator=(const Context&) = delete;

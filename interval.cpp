@@ -73,14 +73,12 @@ Interval operator*(const double& i, const Interval& interval)
     return interval * i;
 }
 
-
-
 std::optional<double> IntervalMethod(const std::function<Interval(Interval)>& func, const Interval& i)
 {
-    constexpr static double m_eps = std::numeric_limits<double>::epsilon();
-    constexpr static double d_eps = m_eps * 1e1; //10¹è ´õ ³ÐÀº machine_epsilon
+    constexpr static double eps = std::numeric_limits<double>::epsilon();
+    constexpr static double d_eps = eps * 1e1; //10¹è ´õ ³ÐÀº machine_epsilon
 
-    if (i.Range() < 0.022)
+    if (i.Range() < 0.1)
     {
         return i.Center();
     }
@@ -89,7 +87,7 @@ std::optional<double> IntervalMethod(const std::function<Interval(Interval)>& fu
     if (!J.Contain(0)) return std::nullopt;
 
     Interval interval1 = { i.Smaller, i.Center() };
-    Interval interval2 = { i.Center() + m_eps, i.Bigger };
+    Interval interval2 = { i.Center() + eps, i.Bigger };
 
     std::optional<double> Root = IntervalMethod(func, interval1);
 

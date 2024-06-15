@@ -1,9 +1,10 @@
 #pragma once
+#ifndef __INTERVAL_H__
+#define __INTERVAL_H__
 #include <functional>
 #include <optional>
 #include <numeric>
 #include <ostream>
-
 
 class Interval
 {
@@ -54,3 +55,4 @@ public:
 std::ostream& operator<<(std::ostream& os, const Interval& interval);
 std::optional<double> IntervalMethod(const std::function<Interval(Interval)>& func, const Interval& i);
 
+#endif //__INTERVAL_H__

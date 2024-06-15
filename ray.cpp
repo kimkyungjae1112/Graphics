@@ -46,10 +46,10 @@ Color Ray::TraceRay(const std::vector<Shape*>& shapes, const Vector& lightPos)
         hitPoint = origin + direction * tMin;
         Vector normal = hitShape->GetNormal(hitPoint);
         Vector lightDir = (lightPos - hitPoint).Normalization();
-        double intensity = /*std::max(0.0, normal.DotProduct(lightDir))*/1.0;
+        double intensity = std::max(0.2, normal.DotProduct(lightDir));
         if (IsInShadow(hitPoint, lightPos, shapes))
         {
-            intensity *= 0.5;
+            intensity = 0.5;
         }
         color = hitShape->GetColor() * intensity;
     }

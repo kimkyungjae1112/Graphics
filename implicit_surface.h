@@ -1,4 +1,6 @@
 #pragma once
+#ifndef __IMPLICIT_SURFACE_H__
+#define __IMPLICIT_SURFACE_H__
 #include "vector.h"
 #include "shape.h"
 #include <functional>
@@ -13,8 +15,9 @@ public:
     Color GetColor() const;
 
 private:
-
     std::vector<Vector> metaballs;
     double isoValue;
     Color color;
 };
+
+#endif //__IMPLICIT_SURFACE_H__
